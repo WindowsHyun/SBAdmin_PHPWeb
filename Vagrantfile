@@ -15,7 +15,7 @@ Vagrant.configure("2") do |config|
     vb.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
   end
   # Forward the Rails server default port to the host
-  config.vm.network "forwarded_port", guest: 22, host: 2200
-  config.vm.network "forwarded_port", guest: 80, host: 8081
+  config.vm.network "forwarded_port", guest: 22, host: 2202
+  config.vm.network "forwarded_port", guest: 80, host: 8082
   config.vm.network "private_network", ip: "192.168.43.56"
 end

@@ -1,3 +1,66 @@
+<?php
+include("./util/db_config.php");
+include("./util/EncryptUtil.php");
+// menu DB 불러오기
+$sql = "SELECT * FROM `".$mysql_database."`.`".$mysql_menu."` ORDER BY me_order ASC , me_suborder ASC";
+$result = $mysqli->query($sql);
+
+$menuArr = array();
+$submenuArr = array();
+while ($row = mysqli_fetch_assoc($result)) {
+	$menuData = array();
+	$menuData['me_no'] = $row['me_no'];
+	$menuData['me_order'] = $row['me_order'];
+	$menuData['me_suborder'] = $row['me_suborder'];
+	$menuData['me_class'] = $row['me_class'];
+	$menuData['me_level'] = $row['me_level'];
+	$menuData['me_name'] = $row['me_name'];
+	$menuData['me_icon'] = $row['me_icon'];
+	$menuData['me_href'] = $row['me_href'];
+
+	if ($menuData['me_suborder'] == "0") {
+		// 서브메뉴가 없을 경우 메인 메뉴에 추가
+		$menuArr[] = $menuData;
+	} else {
+		// 서브메뉴가 있을 경우 서브 메뉴에 추가
+		$submenuArr[$menuData['me_order']][] = $menuData;
+	}
+}
+
+$mb_level = DecryptSession($_SESSION['user_permission'], $_SESSION['user_mail']);
+?>
+
+<script>
+	function loadPage(url, data = '') {
+		if (url != "#") {
+			// 페이지 로딩중 표시
+			setVisible('#loading', true);
+			if (data == '') {
+				$("#container-fluid").load("./page/" + url + ".php", function() {
+					// 페이지 로딩이 완료시 표시 끄기 [jQuery .load()]
+					setVisible('#loading', false);
+				});
+			} else {
+				$("#container-fluid").load("./page/" + url + ".php", {
+					data
+				}, function() {
+					// 페이지 로딩이 완료시 표시 끄기 [jQuery .load()]
+					setVisible('#loading', false);
+				});
+			}
+			// 뒤로가기를 위한 pushState
+			window.history.pushState({
+				"url": url,
+				"data": data
+			}, null, "index");
+		}
+	}
+	window.onpopstate = function(event) {
+		// pushState에서 url, data를 받아서 loadPage에 넣어준다.
+		loadPage(history.state["url"], history.state["data"]);
+	};
+</script>
+
 <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
     <div class="sb-sidenav-menu">
         <div class="nav">
