@@ -18,15 +18,14 @@ include("./util/login_session.php");
             <div id="layoutSidenav_nav">
                 <?php include("./menu.php"); ?>
             </div>
-
             <!-- Menu End -->
 
             <!-- Content Start -->
             <div id="layoutSidenav_content">
                 <!-- InContent Start -->
-                <div id="container-fluid" class="container-fluid">
-                    <div style="height:3000px;"></div>
-                </div>
+                <main>
+                    <div id="container-fluid" class="container-fluid" style="padding-top:24px;"></div>
+                </main>
                 <!-- InContent End -->
 
                 <!-- Tail Start -->
@@ -48,17 +47,17 @@ include("./util/login_session.php");
 </body>
 
 <script>
-    // $(document).ready(function() {
-    // 	$("#container-fluid").load("./page/blank.php");
-    // });
+    $(document).ready(function() {
+    	$("#container-fluid").load("./page/404.php");
+    });
 
-    // function setVisible(selector, visible) {
-    // 	document.querySelector(selector).style.display = visible ? 'block' : 'none';
-    // }
+    function setVisible(selector, visible) {
+    	document.querySelector(selector).style.display = visible ? 'block' : 'none';
+    }
 
-    // document.addEventListener('DOMContentLoaded', function() {
-    // 	setVisible('#loading', false);
-    // }, false);
+    document.addEventListener('DOMContentLoaded', function() {
+    	setVisible('#loading', false);
+    }, false);
 </script>
 
 </html>

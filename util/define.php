@@ -32,6 +32,20 @@ $ORDER_LIST = array(
     15        => "15",
 );
 
+$PERMISSION_LIST = array(
+    PERMISSION_HIDE         => "[0] 숨기기",
+    PERMISSION_NOREGIST     => "[1] 비회원",
+    PERMISSION_VIEWER       => "[2] 뷰어",
+    PERMISSION_DEVELOP      => "[3] 개발자",
+    PERMISSION_ADMIN        => "[4] 관리자",
+);
+
+$MENU_CLASS_LIST = array(
+    HEADING_MENU        => "Heading Menu",
+    DROPDOWN_MENU       => "DropDown Menu",
+    LINK_PAGE           => "Link Page",
+);
+
 function draw_SelectBox($className, $dataArray, $selectValue, $readonly='false')
 {
     $tag = null;
@@ -43,7 +57,7 @@ function draw_SelectBox($className, $dataArray, $selectValue, $readonly='false')
         $readonlydata = "";
     }
 
-    $tag .= "<select name='$className' id='$className' $readonly>";
+    $tag .= "<select name='$className' id='$className' style='width:100%;' $readonly>";
     foreach ($dataArray as $key => $value) {
         if ($selectValue == $key) { 
             $tag .= "<option value='$key' selected='selected'>$value</option>";
