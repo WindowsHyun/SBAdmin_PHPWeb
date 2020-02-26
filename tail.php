@@ -1,11 +1,15 @@
 <footer class="py-4 bg-light mt-auto">
     <div class="container-fluid">
         <div class="d-flex align-items-center justify-content-between small">
-            <div class="text-muted">Copyright &copy; <?=$Site_Title?> 2019</div>
+            <div class="text-muted">Copyright &copy; <?=$Site_Title?> 2020</div>
             <div>
-                <a href="#">Privacy Policy</a>
+                <?php if( $_SESSION['user_mail'] != ''){ ?>
+
+                <?php }else{?>
+                <a href="privacy">Privacy Policy</a>
                 &middot;
-                <a href="#">Terms &amp; Conditions</a>
+                <a href="terms-of-use">Terms &amp; Conditions</a>
+                <?php }?>
             </div>
         </div>
     </div>

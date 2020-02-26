@@ -1,4 +1,4 @@
-<?php include("../page/common.php"); ?>
+<?php include("_common.php"); ?>
 
 <div id="layoutError">
   <div id="layoutError_content">

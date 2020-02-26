@@ -1,8 +1,5 @@
 <?php
-include("../page/common.php");
-include("../../util/db_config.php");
-include("../../util/define_text.php");
-include("../../util/define.php");
+include("_common.php");
 // 관리자 권한 체크 해야함.
 
 // menu DB 불러오기
@@ -22,9 +19,9 @@ while ($row = mysqli_fetch_assoc($result)) {
 }
 ?>
 <!-- Modal 사용하려면 필수 -->
-<script type="text/javascript" src="vendor/jquery/jquery.js"></script>
+<!-- <script type="text/javascript" src="vendor/jquery/jquery.js"></script>
 <script type="text/javascript" src="vendor/datatables/jquery.dataTables.js"></script>
-<script type="text/javascript" src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
 <!-- Modal 사용하려면 필수 -->
 <script type="text/javascript">
 
@@ -127,12 +124,12 @@ while ($row = mysqli_fetch_assoc($result)) {
     </div>
 </div>
 
-<p class="small text-center text-muted my-5">
+<!-- <p class="small text-center text-muted my-5">
     <em>
         <p id="console" style="color:#007bff; font-size:90%"></p>
     </em>
     <em>More table examples coming soon...</em><br>
-</p>
+</p> -->
 
 <script type="text/javascript">
     var doubleSubmitFlag = false;
@@ -193,6 +190,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             var api = $("#modal-api-value").text();
             var dataFromForm = $(formValue).serialize();
             dataFromForm = 'api=' + api + '&' + dataFromForm;
+            console.log(dataFromForm);
             $.ajax({
                 type: "POST",
                 data: dataFromForm,
@@ -212,5 +210,12 @@ while ($row = mysqli_fetch_assoc($result)) {
                 }
             });
         }
+    });
+    
+    $('#adminDataTable').DataTable({
+        responsive: true,
+        order: [
+            [0, "asc"]
+        ]
     });
 </script>

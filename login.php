@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="kr">
-<?php include("./head.php"); ?>
+<?php include("head.php"); ?>
 
 <script type="text/javascript">
     $(document).ready(function() {
@@ -73,11 +73,11 @@
                                         <div class="text-center mb-4">
                                             <p id="console" style="color:#007bff; font-size:90%"></p>
                                         </div>
-                                        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0"><a class="small" href="password.html">Forgot Password?</a><button id="login_btn" type="button" class="btn btn-primary">Login</button></div>
+                                        <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0"><a class="small" href="password">Forgot Password?</a><button id="login_btn" type="button" class="btn btn-primary">Login</button></div>
                                     </form>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <div class="small"><a href="register.html">Need an account? Sign up!</a></div>
+                                    <div class="small"><a href="register">Need an account? Sign up!</a></div>
                                 </div>
                             </div>
                         </div>

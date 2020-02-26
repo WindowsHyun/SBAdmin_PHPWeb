@@ -1,7 +1,4 @@
 <?php
-include("./util/db_config.php");
-include("./util/EncryptUtil.php");
-include("./util/define_text.php");
 // menu DB 불러오기
 $sql = "SELECT * FROM `" . $mysql_database . "`.`" . $mysql_menu . "` ORDER BY me_order ASC , me_suborder ASC";
 $result = $mysqli->query($sql);

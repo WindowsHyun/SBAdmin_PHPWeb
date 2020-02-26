@@ -3,7 +3,6 @@
 <?php
 // echo $SERVER['PHP_SELF'];
 include("./head.php");
-include("./util/login_session.php");
 ?>
 
 <body class="sb-nav-fixed" id="page-top">

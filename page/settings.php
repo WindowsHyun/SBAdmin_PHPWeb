@@ -1,6 +1,6 @@
 <?php
-include("./common.php");
-include("../util/EncryptUtil.php");
+include("_common.php");
+// include("../util/EncryptUtil.php");
 ?>
 
 <script type="text/javascript">

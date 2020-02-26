@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `admin_table` (
   `mail` text COLLATE utf8_unicode_ci NOT NULL,
   `pwd` text COLLATE utf8_unicode_ci NOT NULL,
   `permission` int(11) DEFAULT NULL,
+  `described` text COLLATE utf8_unicode_ci,
   `lastLoginIP` text COLLATE utf8_unicode_ci,
   `lastLogin` datetime DEFAULT NULL,
   PRIMARY KEY (`no`)
@@ -33,8 +34,8 @@ CREATE TABLE IF NOT EXISTS `admin_table` (
 -- 테이블 데이터 GameServer.admin_table:~1 rows (대략적) 내보내기
 DELETE FROM `admin_table`;
 /*!40000 ALTER TABLE `admin_table` DISABLE KEYS */;
-INSERT INTO `admin_table` (`no`, `name`, `mail`, `pwd`, `permission`, `lastLoginIP`, `lastLogin`) VALUES
-	(1, 'windowshyun', 'kwon616@gmail.com', 'a3jLAk/tAmKrSntX9b1nUQ', NULL, '192.168.43.1', '2020-02-25 07:18:53');
+INSERT INTO `admin_table` (`no`, `name`, `mail`, `pwd`, `permission`, `described`, `lastLoginIP`, `lastLogin`) VALUES
+	(1, 'windowshyun', 'kwon616@gmail.com', 'a3jLAk/tAmKrSntX9b1nUQ', 4, NULL, '192.168.43.1', '2020-02-26 15:01:41');
 /*!40000 ALTER TABLE `admin_table` ENABLE KEYS */;
 
 -- 테이블 GameServer.menu 구조 내보내기
@@ -49,24 +50,24 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `me_icon` text NOT NULL,
   `me_href` text,
   PRIMARY KEY (`me_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4;
 
 -- 테이블 데이터 GameServer.menu:~12 rows (대략적) 내보내기
 DELETE FROM `menu`;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
 INSERT INTO `menu` (`me_no`, `me_order`, `me_suborder`, `me_level`, `me_class`, `me_name`, `me_icon`, `me_href`) VALUES
-	(1, 1, 0, 0, 'sb-sidenav-menu-heading', 'Game', '', NULL),
+	(1, 1, 0, 2, 'sb-sidenav-menu-heading', 'Game', '', NULL),
 	(2, 2, 0, 2, 'nav-link collapsed', '게임 설정', 'fas fa-hammer', '#'),
-	(3, 2, 1, 2, NULL, '기본 정보', 'fas fa-uesr-tie', NULL),
+	(3, 2, 1, 2, 'nav-link', '기본 정보', 'fas fa-uesr-tie', NULL),
 	(4, 3, 0, 2, 'nav-link collapsed', '게임 데이터', 'fas fa-table', '#'),
-	(5, 4, 0, 0, 'sb-sidenav-menu-heading', 'User', '', NULL),
+	(5, 4, 0, 2, 'sb-sidenav-menu-heading', 'User', '', NULL),
 	(6, 5, 0, 2, 'nav-link collapsed', '유저 데이터', 'fas fa-user-cog', '#'),
-	(7, 6, 0, 0, 'sb-sidenav-menu-heading', 'Admin', '', NULL),
+	(7, 6, 0, 2, 'sb-sidenav-menu-heading', 'Admin', '', NULL),
 	(8, 7, 0, 2, 'nav-link collapsed', '운영 도구', 'fas fa-tools', '#'),
-	(9, 8, 1, 2, NULL, '운영자 아이디 관리', 'fas fa-user-tie', 'OperatingTools/adminMember'),
-	(10, 9, 0, 2, 'nav-link collapsed', '관리', 'fas fa-cog', '#'),
-	(11, 9, 1, 2, NULL, '메뉴 관리', 'fas fa-database', 'Setting/menu'),
-	(12, 9, 2, 2, '', '데이터 업로드', 'fas fa-database', '');
+	(9, 7, 1, 2, 'nav-link', '운영자 아이디 관리', 'fas fa-user-tie', 'OperatingTools/adminMember'),
+	(10, 8, 0, 2, 'nav-link collapsed', '관리', 'fas fa-cog', '#'),
+	(11, 8, 1, 2, 'nav-link', '메뉴 관리', 'fas fa-database', 'Setting/menu'),
+	(12, 8, 2, 2, 'nav-link', '데이터 업로드', 'fas fa-database', '');
 /*!40000 ALTER TABLE `menu` ENABLE KEYS */;
 
 -- 테이블 GameServer.regist_code 구조 내보내기
