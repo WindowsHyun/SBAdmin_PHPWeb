@@ -1,4 +1,5 @@
 <?php
+session_start();
 function get_client_ip()
 {
 	$ipaddress = '';
@@ -28,7 +29,7 @@ if (strpos($_SERVER['REQUEST_URI'], "register")) {
 	// login, privacy, termofuse, password 주소에 들어온 상태일 경우 넘긴다.
 
 } else {
-	if (!isset($_SESSION['user_mail']) || $_SESSION['user_mail'] == "" || !isset($_SESSION['user_name']) || $_SESSION['user_name'] == "" || !isset($_SESSION['user_no']) || $_SESSION['user_no'] == "") {
+	if (!isset($_SESSION['user_mail']) || $_SESSION['user_mail'] == "" || !isset($_SESSION['user_name']) || $_SESSION['user_name'] == "" || !isset($_SESSION['user_no']) || $_SESSION['user_no'] == "" || !isset($_SESSION['user_permission']) || $_SESSION['user_permission'] == "") {
 		echo "<meta http-equiv='refresh' content='0;url=login'>";
 		exit;
 	} else {

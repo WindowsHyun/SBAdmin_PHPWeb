@@ -87,7 +87,7 @@ $collapse_num = 0;
                                 <!-- 서브메뉴 foreach 종료 -->
                             </nav>
                         </div>
-                    <? } ?>
+                    <?php } ?>
                 <?php } else if ($data['me_class'] == LINK_PAGE) { ?>
                     <a class="nav-link" onclick="loadPage('<?= $data['me_href']; ?>');" style="cursor:pointer">
                         <?= $data['me_name']; ?>
@@ -95,7 +95,7 @@ $collapse_num = 0;
                 <?php } ?>
                 <?php $collapse_num++; ?>
                 <!-- 메뉴 Level 권한 체크 종료 -->
-            <? } ?>
+            <?php } ?>
             <!-- 메뉴 foreach 종료 -->
         </div>
     </div>

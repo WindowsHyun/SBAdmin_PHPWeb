@@ -3,7 +3,7 @@ include("_common.php");
 // 관리자 권한 체크 해야함.
 
 // menu DB 불러오기
-$sql = "SELECT * FROM `" . $mysql_database . "`.`" . $mysql_login_table . "`";
+$sql = "SELECT * FROM `" . $mysql_database . "`.`" . $mysql_admin_login_table . "`";
 $result = $mysqli->query($sql);
 $adminMemberArr = array();
 while ($row = mysqli_fetch_assoc($result)) {

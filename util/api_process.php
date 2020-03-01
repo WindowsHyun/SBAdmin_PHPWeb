@@ -3,11 +3,12 @@ include("db_config.php");
 include("define_text.php");
 include("EncryptUtil.php");
 include("session_data.php");
+
 // 레벨 제한 체크
-// if ($user_level <= 9) {
-// 	print "<script language=javascript> alert('비정상 적인 접근 입니다.'); location.replace('login'); </script>";
-// 	exit();
-// }
+if ($user_permission <= PERMISSION_VIEWER) {
+	print "<script language=javascript> alert('비정상 적인 접근 입니다.'); location.replace('login'); </script>";
+	exit();
+}
 
 // Referer 체크
 if (strpos($_SERVER['HTTP_REFERER'], "index") == false) {
@@ -22,7 +23,7 @@ switch ($API) {
 	case ADMIN_ADD_MENU:
 		$order = $_POST['me_order_add'];
 		$subOrder = $_POST['me_suborder_add'];
-		$level = $_POST['me_level_add'];
+		$level = $_POST['me_permission_add'];
 		$class = $_POST['me_class_add'];
 		$menu = $_POST['me_name_add'];
 		$icon = $_POST['me_icon_add'];
@@ -35,7 +36,7 @@ switch ($API) {
 
 		// sql 실행
 		$sql = sprintf(
-			"INSERT INTO `" . $mysql_database . "`.`" . $mysql_menu . "` (`me_order`, `me_suborder`, `me_level`, `me_class`, `me_name`, `me_icon`, `me_href`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
+			"INSERT INTO `" . $mysql_database . "`.`" . $mysql_menu . "` (`me_order`, `me_suborder`, `me_permission`, `me_class`, `me_name`, `me_icon`, `me_href`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s')",
 			$mysqli->real_escape_string($order),
 			$mysqli->real_escape_string($subOrder),
 			$mysqli->real_escape_string($level),
@@ -50,7 +51,7 @@ switch ($API) {
 		$no = $_POST['me_no'];
 		$order = $_POST['me_order'];
 		$suborder = $_POST['me_suborder'];
-		$level = $_POST['me_level'];
+		$level = $_POST['me_permission'];
 		$class = $_POST['me_class'];
 		$name = $_POST['me_name'];
 		$icon = $_POST['me_icon'];
@@ -68,6 +69,34 @@ switch ($API) {
 		);
 		break;
 
+	case ADMIN_EDIT_MENU:
+		$no = $_POST['me_no'];
+		$order = $_POST['me_order'];
+		$subOrder = $_POST['me_suborder'];
+		$level = $_POST['me_permission'];
+		$class = $_POST['me_class'];
+		$name = $_POST['me_name'];
+		$icon = $_POST['me_icon'];
+		$page = $_POST['me_href'];
+
+		if (!isset($no) || !isset($order) || !isset($subOrder) || !isset($level) || $no == "" || $order == "" || $subOrder == "" || $level == "") {
+			print "<script language=javascript> alert('비정상 적인 접근 입니다.'); location.replace('login'); </script>";
+			exit();
+		}
+		
+		$sql = sprintf(
+			"UPDATE `".$mysql_database."`.`".$mysql_menu."` SET `me_order`=%d, `me_suborder`=%d, `me_permission`=%d, `me_class`='%s', `me_name`='%s', `me_icon`='%s', `me_href`='%s' WHERE  `me_no`=%d;",
+			$mysqli->real_escape_string($order),
+			$mysqli->real_escape_string($subOrder),
+			$mysqli->real_escape_string($level),
+			$mysqli->real_escape_string($class),
+			$mysqli->real_escape_string($name),
+			$mysqli->real_escape_string($icon),
+			$mysqli->real_escape_string($page),
+			$mysqli->real_escape_string($no)
+		);
+	break;
+
 	case ADMIN_ADD_MEMBER:
 		$name = $_POST['member_add_name'];
 		$email = $_POST['member_add_email'];
@@ -82,7 +111,7 @@ switch ($API) {
 
 		// 해당 DB 테이블에 해당 메일이 있는지 여부를 체크 한다.
 		$sql = sprintf(
-			"INSERT INTO `" . $mysql_database . "`.`" . $mysql_login_table . "` (`name`, `mail`, `pwd`, `permission`, `described`) VALUES ('%s', '%s', '%s', '%d', '%s')",
+			"INSERT INTO `" . $mysql_database . "`.`" . $mysql_admin_login_table . "` (`name`, `mail`, `pwd`, `permission`, `described`) VALUES ('%s', '%s', '%s', '%d', '%s')",
 			$mysqli->real_escape_string($name),
 			$mysqli->real_escape_string($email),
 			$mysqli->real_escape_string(Encrypt($pwd, $email)),
@@ -103,7 +132,7 @@ switch ($API) {
 
 		// 해당 DB 테이블에 해당 메일이 있는지 여부를 체크 한다.
 		$sql = sprintf(
-			"DELETE FROM `" . $mysql_database . "`.`" . $mysql_login_table . "` WHERE  `no`=%s;",
+			"DELETE FROM `" . $mysql_database . "`.`" . $mysql_admin_login_table . "` WHERE  `no`=%s;",
 			$mysqli->real_escape_string($no)
 		);
 		break;

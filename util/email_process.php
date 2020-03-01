@@ -20,7 +20,7 @@
 
 	$chk_mail = $_POST['chkMail'];
 
-	$sql = sprintf("SELECT mail FROM ".$mysql_login_table ." WHERE mail = \"%s\"",
+	$sql = sprintf("SELECT mail FROM ".$mysql_member_login_table ." WHERE mail = \"%s\"",
                     $mysqli->real_escape_string($chk_mail) );
 	$result = $mysqli->query($sql);
 	$row = mysqli_fetch_assoc($result);

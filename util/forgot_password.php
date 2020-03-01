@@ -32,7 +32,7 @@ if ($check_email == false) {
 
 // 해당 DB 테이블에 해당 메일이 있는지 여부를 체크 한다.
 $sql = sprintf(
-    "SELECT * FROM `".$mysql_login_table."` WHERE `mail` = \"%s\"",
+    "SELECT * FROM `".$mysql_member_login_table."` WHERE `mail` = \"%s\"",
     $mysqli->real_escape_string($user_mail)
 );
 $result = $mysqli->query($sql);
@@ -47,7 +47,7 @@ if ($row == null) {
     $token = EncryptSession("" . $checkTime . "|" . $user_mail . "|" . $row['name'] . "", $user_mail);
     // DB에 해당 아이디가 있을 경우
     $sql = sprintf(
-        "UPDATE `".$mysql_database."`.`".$mysql_login_table."` SET `token`=\"%s\" WHERE  `no`=%s",
+        "UPDATE `".$mysql_database."`.`".$mysql_member_login_table."` SET `token`=\"%s\" WHERE  `no`=%s",
         $mysqli->real_escape_string($token),
         $mysqli->real_escape_string($row['no'])
     );

@@ -1,4 +1,6 @@
 <?php
+include("define_text.php");
+
 $LEVEL_LIST = array(
     11        => "[0] 숨기기",
     1         => "[1] 비회원",

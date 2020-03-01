@@ -44,7 +44,7 @@ $user_mail = $_POST['inputEmailAddress'];
 $user_pw = $_POST['inputPassword'];
 
 $sql = sprintf(
-	"SELECT * FROM `".$mysql_login_table."` WHERE mail = \"%s\" and pwd = \"%s\"",
+	"SELECT * FROM `".$mysql_admin_login_table."` WHERE mail = \"%s\" and pwd = \"%s\"",
 	$mysqli->real_escape_string($user_mail),
 	$mysqli->real_escape_string(Encrypt($user_pw, $user_mail))
 );
@@ -61,7 +61,7 @@ if ($row['mail'] != $user_mail) {
 	$userNo = $row['no'];
 	$loginTime = "" . date("Y-m-d H:i:s") . "";
 	$sql = sprintf(
-		"UPDATE `".$mysql_database."`.`".$mysql_login_table."` SET `lastLogin`='%s', `lastLoginIP`='%s'  WHERE `no`=%s",
+		"UPDATE `".$mysql_database."`.`".$mysql_admin_login_table."` SET `lastLogin`='%s', `lastLoginIP`='%s'  WHERE `no`=%s",
 		$mysqli->real_escape_string($loginTime),
 		$mysqli->real_escape_string(login_process_get_ip()),
 		$mysqli->real_escape_string($userNo)
