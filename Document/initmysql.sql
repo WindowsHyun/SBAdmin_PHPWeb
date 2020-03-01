@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `admin_table` (
 DELETE FROM `admin_table`;
 /*!40000 ALTER TABLE `admin_table` DISABLE KEYS */;
 INSERT INTO `admin_table` (`no`, `name`, `mail`, `pwd`, `permission`, `described`, `lastLoginIP`, `lastLogin`) VALUES
-	(1, 'windowshyun', 'kwon616@gmail.com', 'a3jLAk/tAmKrSntX9b1nUQ', 4, NULL, '192.168.43.1', '2020-02-26 15:01:41');
+	(1, 'WindowsHyun', 'kwon616@gmail.com', 'a3jLAk/tAmKrSntX9b1nUQ', 4, NULL, '192.168.43.1', '2020-03-01 14:30:41');
 /*!40000 ALTER TABLE `admin_table` ENABLE KEYS */;
 
 -- 테이블 GameServer.menu 구조 내보내기
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `menu` (
   `me_no` int(11) NOT NULL AUTO_INCREMENT,
   `me_order` int(11) DEFAULT '0',
   `me_suborder` int(11) DEFAULT '0',
-  `me_level` int(11) DEFAULT '0',
+  `me_permission` int(11) DEFAULT '0',
   `me_class` text,
   `me_name` text NOT NULL,
   `me_icon` text NOT NULL,
@@ -55,8 +55,8 @@ CREATE TABLE IF NOT EXISTS `menu` (
 -- 테이블 데이터 GameServer.menu:~12 rows (대략적) 내보내기
 DELETE FROM `menu`;
 /*!40000 ALTER TABLE `menu` DISABLE KEYS */;
-INSERT INTO `menu` (`me_no`, `me_order`, `me_suborder`, `me_level`, `me_class`, `me_name`, `me_icon`, `me_href`) VALUES
-	(1, 1, 0, 2, 'sb-sidenav-menu-heading', 'Game', '', NULL),
+INSERT INTO `menu` (`me_no`, `me_order`, `me_suborder`, `me_permission`, `me_class`, `me_name`, `me_icon`, `me_href`) VALUES
+	(1, 1, 0, 2, 'sb-sidenav-menu-heading', 'Game', '', ''),
 	(2, 2, 0, 2, 'nav-link collapsed', '게임 설정', 'fas fa-hammer', '#'),
 	(3, 2, 1, 2, 'nav-link', '기본 정보', 'fas fa-uesr-tie', NULL),
 	(4, 3, 0, 2, 'nav-link collapsed', '게임 데이터', 'fas fa-table', '#'),
