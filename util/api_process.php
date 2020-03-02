@@ -179,7 +179,7 @@ $result = $mysqli->query($sql);
 if ($result == true) {
 	echo "TRUE";
 } else {
-	echo "FALSE";
+	print "<script language=javascript> alert('처리 실패.');</script>";
 }
-
+exit();
 ?>

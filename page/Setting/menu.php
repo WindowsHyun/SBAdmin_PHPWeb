@@ -28,8 +28,9 @@ while ($row = mysqli_fetch_assoc($result)) {
     }
 }
 $num = 1;
-echo $user_permission;
 ?>
+<p id="console" style="color:#007bff; font-size:90%" hidden></p>
+
 <!-- Breadcrumbs-->
 <ol class="breadcrumb">
     <li class="breadcrumb-item"><?= $Site_Title ?></li>
@@ -174,10 +175,14 @@ echo $user_permission;
 
     function checkTrueFalse(data) {
         setVisible('#loading', true);
-        $("#container-fluid").load("./page/Setting/menu.php", function() {
-            // 페이지 로딩이 완료시 표시 끄기 [jQuery .load()]
-            setVisible('#loading', false);
-        });
+        if (data != "TRUE") {
+            $("#console").html(data);
+        } else {
+            $("#container-fluid").load("./page/Setting/menu.php", function() {
+                // 페이지 로딩이 완료시 표시 끄기 [jQuery .load()]
+                setVisible('#loading', false);
+            });
+        }
     }
 
     function EditAdminMenu(no, name) {
@@ -241,7 +246,6 @@ echo $user_permission;
             var api = $("#modal-api-value").text();
             var dataFromForm = $(formValue).serialize();
             dataFromForm = 'api=' + api + '&' + dataFromForm;
-            console.log(dataFromForm);
             $.ajax({
                 type: "POST",
                 data: dataFromForm,

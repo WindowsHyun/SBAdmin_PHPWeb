@@ -18,14 +18,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $adminMemberArr[] = $memberData;
 }
 ?>
-<!-- Modal 사용하려면 필수 -->
-<!-- <script type="text/javascript" src="vendor/jquery/jquery.js"></script>
-<script type="text/javascript" src="vendor/datatables/jquery.dataTables.js"></script>
-<script type="text/javascript" src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-<!-- Modal 사용하려면 필수 -->
-<script type="text/javascript">
-
-</script>
+<p id="console" style="color:#007bff; font-size:90%" hidden></p>
 
 <!-- Breadcrumbs-->
 <ol class="breadcrumb">
@@ -133,17 +126,18 @@ while ($row = mysqli_fetch_assoc($result)) {
 
 <script type="text/javascript">
     var doubleSubmitFlag = false;
-    // $(document).ready(function() {
-    //     var doubleSubmitFlag = false;
-    //     doubleSubmitFlag = false;
-    // });
-
+    
     function checkTrueFalse(data) {
         setVisible('#loading', true);
-        $("#container-fluid").load("./page/OperatingTools/adminMember.php", function() {
-            // 페이지 로딩이 완료시 표시 끄기 [jQuery .load()]
-            setVisible('#loading', false);
-        });
+        //console
+        if (data != "TRUE") {
+            $("#console").html(data);
+        } else {
+            $("#container-fluid").load("./page/OperatingTools/adminMember.php", function() {
+                // 페이지 로딩이 완료시 표시 끄기 [jQuery .load()]
+                setVisible('#loading', false);
+            });
+        }
     }
 
     function AddAdminMember() {
@@ -205,7 +199,6 @@ while ($row = mysqli_fetch_assoc($result)) {
             var api = $("#modal-api-value").text();
             var dataFromForm = $(formValue).serialize();
             dataFromForm = 'api=' + api + '&' + dataFromForm;
-            console.log(dataFromForm);
             $.ajax({
                 type: "POST",
                 data: dataFromForm,
@@ -226,7 +219,7 @@ while ($row = mysqli_fetch_assoc($result)) {
             });
         }
     });
-    
+
     $('#adminDataTable').DataTable({
         responsive: true,
         order: [
