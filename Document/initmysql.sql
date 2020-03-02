@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS `admin_table` (
 DELETE FROM `admin_table`;
 /*!40000 ALTER TABLE `admin_table` DISABLE KEYS */;
 INSERT INTO `admin_table` (`no`, `name`, `mail`, `pwd`, `permission`, `described`, `lastLoginIP`, `lastLogin`) VALUES
-	(1, 'WindowsHyun', 'kwon616@gmail.com', 'a3jLAk/tAmKrSntX9b1nUQ', 4, NULL, '192.168.43.1', '2020-03-01 14:30:41');
+	(1, 'WindowsHyun', 'kwon616@gmail.com', 'a3jLAk/tAmKrSntX9b1nUQ', 4, '최고 관리자', '192.168.43.1', '2020-03-02 12:29:11');
 /*!40000 ALTER TABLE `admin_table` ENABLE KEYS */;
 
 -- 테이블 GameServer.menu 구조 내보내기

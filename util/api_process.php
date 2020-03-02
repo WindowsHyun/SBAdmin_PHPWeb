@@ -83,9 +83,9 @@ switch ($API) {
 			print "<script language=javascript> alert('비정상 적인 접근 입니다.'); location.replace('login'); </script>";
 			exit();
 		}
-		
+
 		$sql = sprintf(
-			"UPDATE `".$mysql_database."`.`".$mysql_menu."` SET `me_order`=%d, `me_suborder`=%d, `me_permission`=%d, `me_class`='%s', `me_name`='%s', `me_icon`='%s', `me_href`='%s' WHERE  `me_no`=%d;",
+			"UPDATE `" . $mysql_database . "`.`" . $mysql_menu . "` SET `me_order`=%d, `me_suborder`=%d, `me_permission`=%d, `me_class`='%s', `me_name`='%s', `me_icon`='%s', `me_href`='%s' WHERE  `me_no`=%d;",
 			$mysqli->real_escape_string($order),
 			$mysqli->real_escape_string($subOrder),
 			$mysqli->real_escape_string($level),
@@ -95,7 +95,7 @@ switch ($API) {
 			$mysqli->real_escape_string($page),
 			$mysqli->real_escape_string($no)
 		);
-	break;
+		break;
 
 	case ADMIN_ADD_MEMBER:
 		$name = $_POST['member_add_name'];
@@ -136,6 +136,43 @@ switch ($API) {
 			$mysqli->real_escape_string($no)
 		);
 		break;
+
+	case ADMIN_EDIT_MEMBER:
+		$no = $_POST['member_no'];
+		$name = $_POST['member_name'];
+		$mail = $_POST['member_mail'];
+		if ( $_POST['member_pwd'] == '' || !isset($_POST['member_pwd'])){
+			$pwd = 'NoPWD';
+		}else{
+			$pwd = Encrypt($_POST['member_pwd'], $mail);
+		}
+		$permission = $_POST['member_add_permission'];
+		$described = $_POST['member_described'];
+
+		if (!isset($no) || !isset($pwd) || !isset($permission) || !isset($described) || $no == "" || $pwd == "" || $permission == "" || $described == "") {
+			print "<script language=javascript> alert('비정상 적인 접근 입니다.'); location.replace('login'); </script>";
+			exit();
+		}
+
+		if ($pwd == 'NoPWD') {
+			// 비밀번호 변경을 안했을 경우 처리
+			$sql = sprintf(
+				"UPDATE `" . $mysql_database . "`.`" . $mysql_admin_login_table . "` SET `permission`=%d, `described`='%s' WHERE  `no`=%d;",
+				$mysqli->real_escape_string($permission),
+				$mysqli->real_escape_string($described),
+				$mysqli->real_escape_string($no)
+			);
+		} else {
+			// 비밀번호 변경을 할 때 처리
+			$sql = sprintf(
+				"UPDATE `" . $mysql_database . "`.`" . $mysql_admin_login_table . "` SET `pwd`='%s', `permission`=%d, `described`='%s' WHERE  `no`=%d;",
+				$mysqli->real_escape_string($pwd),
+				$mysqli->real_escape_string($permission),
+				$mysqli->real_escape_string($described),
+				$mysqli->real_escape_string($no)
+			);
+		}
+		break;
 }
 
 $result = $mysqli->query($sql);
@@ -144,4 +181,5 @@ if ($result == true) {
 } else {
 	echo "FALSE";
 }
+
 ?>

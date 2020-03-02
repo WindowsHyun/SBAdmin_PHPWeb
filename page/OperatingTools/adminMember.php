@@ -86,7 +86,7 @@ while ($row = mysqli_fetch_assoc($result)) {
                                 <?= $data['lastLogin']; ?>
                             </td>
                             <td>
-                                <button type="button" onclick="editFixMenu('<?= $data['no']; ?>');" class="btn btn-primary btn-sm">수정</button>&nbsp;<button type="button" id="delMenu_btn" onclick="deleteAdminMember('<?= $data['no']; ?>', '<?= $data['mail']; ?>');" class="btn btn-danger btn-sm">삭제</button>
+                                <button type="button" id="editMenu_btn" onclick="editADminMember('<?= $data['no']; ?>', '<?= $data['mail']; ?>');" class="btn btn-primary btn-sm">수정</button>&nbsp;<button type="button" id="delMenu_btn" onclick="deleteAdminMember('<?= $data['no']; ?>', '<?= $data['mail']; ?>');" class="btn btn-danger btn-sm">삭제</button>
                             </td>
                         </tr>
                     <?php } ?>
@@ -156,6 +156,21 @@ while ($row = mysqli_fetch_assoc($result)) {
         $("#modal-btn-value").text('addMenu_btn');
         $("#modal-data-value").text('#addMember_frm');
         $("#modal-api-value").text('<?= ADMIN_ADD_MEMBER ?>');
+        $('#confirmModal').modal({
+            show: true
+        });
+    }
+
+    function editADminMember(no, mail) {
+        var subject = "멤버 수정";
+        var content = "<div class='alert alert-warning' role='alert'>";
+        content += "'" + mail + "'" + " 아이디를 수정하시겠습니까?";
+        content += "</div>";
+        $("#modal-title").text(subject);
+        $("#modal-body").html(content);
+        $("#modal-btn-value").text('editMenu_btn');
+        $("#modal-data-value").text('#fixAdminMember_frm_' + no + ' :input');
+        $("#modal-api-value").text('<?= ADMIN_EDIT_MEMBER ?>');
         $('#confirmModal').modal({
             show: true
         });
