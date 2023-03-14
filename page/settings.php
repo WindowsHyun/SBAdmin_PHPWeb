@@ -21,7 +21,7 @@ include("_common.php");
             }
         });
 
-        // 회원가입 버튼 클릭 시
+        // 비밀번호 변경 클릭시
         $("#changeMyAccount_btn").click(function() {
             // 비밀번호 체크
             if (passPassword == false) {
@@ -53,19 +53,15 @@ include("_common.php");
                     return 0;
                 }
             });
-            // 회원가입 처리
-            var dataFromForm = $('#changeMyAccount_frm').serialize();
-            $.ajax({
-                type: "POST",
-                data: dataFromForm,
-                url: "./util/setting_password.php",
-                success: function(data) {
-                    $("#console").html(data);
-                },
-                error: function(data) {
-                    alert("Error : " + data);
-                }
-            });
+            var btn = document.getElementById("changeMyAccount_btn");
+            btn.style.backgroundColor = "#6c757d";
+            btn.style.borderColor = "#6c757d";
+
+            // 비밀번호 변경 처리
+            var loginID = $("#changeMyAccount_frm").find("[id=inputEmail]").val();
+            var name = $("#changeMyAccount_frm").find("[id=inputName]").val();
+            var pwd = $("#changeMyAccount_frm").find("[id=confirmPassword]").val();
+            sendAPI('<?php echo USER_SELF_PASSWORD_CHANGE; ?>', "LoginID=" + loginID + "&Name=" + name + "&Pwd=" + pwd + "");
 
         });
     });

@@ -43,37 +43,50 @@ if (strpos($_SERVER['HTTP_REFERER'], "login") == false) {
 $user_mail = $_POST['inputEmailAddress'];
 $user_pw = $_POST['inputPassword'];
 
-$sql = sprintf(
-	"SELECT * FROM `".$mysql_admin_login_table."` WHERE mail = \"%s\" and pwd = \"%s\"",
-	$mysqli->real_escape_string($user_mail),
-	$mysqli->real_escape_string(Encrypt($user_pw, $user_mail))
-);
-$result = $mysqli->query($sql);
-$row = mysqli_fetch_assoc($result);
+$sql = "SELECT * FROM `" . $mysql_admin_login_table . "` WHERE mail = ?";
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param("s", $user_mail);
+$stmt->execute();
+$result = $stmt->get_result();
 
-if ($row['mail'] != $user_mail) {
-    echo "아이디 또는 패스워드가 잘못되었습니다.";
-    echo "<br>";
-    echo $sql;
-	exit;
+
+
+
+if ($result->num_rows > 0) {
+	$row = $result->fetch_assoc();
+	$hashed_password = $row['pwd'];
+
+	// 비밀번호 검증
+	if (password_verify($user_pw, $hashed_password)) {
+		// 로그인 성공시, lastLogin 시간을 남긴다.
+		$userNo = $row['no'];
+		$loginTime = "" . date("Y-m-d H:i:s") . "";
+		$sql = "UPDATE `" . $mysql_database . "`.`" . $mysql_admin_login_table . "` SET `lastLogin`=?, `lastLoginIP`=?  WHERE `no`=?";
+		$stmt = $mysqli->prepare($sql);
+		$stmt->bind_param("ssi", $loginTime, login_process_get_ip(), $userNo);
+		$stmt->execute();
+
+		$_SESSION['user_mail'] = $user_mail;
+		$_SESSION['user_ip'] = login_process_get_ip();
+		$_SESSION['user_no'] = EncryptSession($row['no'], $user_mail);
+		$_SESSION['user_name'] = EncryptSession($row['name'], $user_mail);
+		$_SESSION['user_permission'] = EncryptSession($row['permission'], $user_mail);
+		// Webtoon Seesion 가져오기
+		if ($_POST['readData'] != "") {
+			echo "<meta http-equiv='refresh' content='0;url=site?" . $_POST['readData'] . "'>";
+		} else {
+			echo "<meta http-equiv='refresh' content='0;url=index'>";
+		}
+	} else {
+		// 로그인 실패
+		echo "아이디 또는 패스워드가 잘못되었습니다.";
+		echo "<br>";
+		exit;
+	}
 } else {
-	// 로그인 성공시, lastLogin 시간을 남긴다.
-	$userNo = $row['no'];
-	$loginTime = "" . date("Y-m-d H:i:s") . "";
-	$sql = sprintf(
-		"UPDATE `".$mysql_database."`.`".$mysql_admin_login_table."` SET `lastLogin`='%s', `lastLoginIP`='%s'  WHERE `no`=%s",
-		$mysqli->real_escape_string($loginTime),
-		$mysqli->real_escape_string(login_process_get_ip()),
-		$mysqli->real_escape_string($userNo)
-	);
-	$result = $mysqli->query($sql);
-
-	session_start();
-	$_SESSION['user_mail'] = $user_mail;
-	$_SESSION['user_ip'] = login_process_get_ip();
-	$_SESSION['user_no'] = EncryptSession($row['no'], $user_mail);
-	$_SESSION['user_name'] = EncryptSession($row['name'], $user_mail);
-	$_SESSION['user_permission'] = EncryptSession($row['permission'], $user_mail);
-	echo "<meta http-equiv='refresh' content='0;url=index'>";
+	// 로그인 실패
+	echo "아이디 또는 패스워드가 잘못되었습니다.";
+	echo "<br>";
+	exit;
 }
 ?>

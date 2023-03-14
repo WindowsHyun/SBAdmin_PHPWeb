@@ -1,5 +1,19 @@
 <?php
 session_start();
+if (!isset($_SESSION['session_id'])) {
+    session_regenerate_id(true);
+    $_SESSION['session_id'] = session_id();
+} else {
+    if ($_SESSION['session_id'] !== session_id()) {
+        // 세션 ID가 일치하지 않는 경우, 로그아웃 처리 등의 보안 조치를 취할 수 있습니다.
+        // 예를 들어, 다음과 같이 세션을 파괴하고 로그아웃 처리를 수행할 수 있습니다.
+        session_unset();
+        session_destroy();
+        // 로그아웃 처리 등의 보안 조치를 수행합니다.
+        echo "<meta http-equiv='refresh' content='0;url=.'>";
+    }
+}
+
 $user_mail = "";
 $user_no = "";
 $user_name = "";

@@ -9,11 +9,11 @@ $user_name = $_POST['inputName'];
 $regtime = "" . date("Y-m-d H:i:s") . "";
 
 // 이메일 중복 체크를 한번 더 한다.
-$sql = sprintf(
-	"SELECT mail FROM ".$mysql_member_login_table." WHERE mail = \"%s\"",
-	$mysqli->real_escape_string($user_email)
-);
-$result = $mysqli->query($sql);
+$sql = "SELECT mail FROM `" . $mysql_member_login_table . "` WHERE mail = ?";
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param("s", $user_email);
+$stmt->execute();
+$result = $stmt->get_result();
 $row = mysqli_fetch_assoc($result);
 
 if ($row['mail'] != '') {
@@ -22,11 +22,11 @@ if ($row['mail'] != '') {
 }
 
 // 가입 코드를 확인 한다.
-$sql = sprintf(
-	"SELECT * FROM ".$mysql_regist_code." WHERE `regist_code` = \"%s\"",
-	$mysqli->real_escape_string($register_code)
-);
-$result = $mysqli->query($sql);
+$sql = "SELECT * FROM `" . $mysql_regist_code . "` WHERE `regist_code` = ?";
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param("s", $register_code);
+$stmt->execute();
+$result = $stmt->get_result();
 $row = mysqli_fetch_assoc($result);
 
 if ($row['count'] > 0) {
@@ -38,27 +38,18 @@ if ($row['count'] > 0) {
 }
 
 // 실제 가입 처리를 한다.
-$sql = sprintf(
-	" INSERT INTO `".$mysql_database."`.`".$mysql_member_login_table."` (`name`, `mail`, `pwd`, `level`, `code`, `token`, `regtime` , `lastLogin`) VALUES ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s')",
-	$mysqli->real_escape_string($user_name),
-	$mysqli->real_escape_string($user_email),
-	$mysqli->real_escape_string(Encrypt($user_pw, $user_email)),
-	$mysqli->real_escape_string("2"),
-	$mysqli->real_escape_string($register_code),
-	$mysqli->real_escape_string(""),
-	$mysqli->real_escape_string($regtime),
-	$mysqli->real_escape_string($regtime)
-);
-$result = $mysqli->query($sql);
+$hashed_password = password_hash($user_pw, PASSWORD_DEFAULT);
+$sql = "INSERT INTO `" . $mysql_database . "`.`" . $mysql_member_login_table . "` (`name`, `mail`, `pwd`, `level`, `code`, `token`, `regtime`, `lastLogin`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$stmt = $mysqli->prepare($sql);
+$stmt->bind_param("ssssssss", $user_name, $user_email, $hashed_password, 2, $register_code, "", $regtime, $regtime);
+$result = $stmt->execute();
 
 if ($result == true) {
 	// 가입 카운트는 줄어 든다.
-	$sql = sprintf(
-		"UPDATE `".$mysql_database."`.`".$mysql_regist_code."` SET `count`='%s' WHERE  `no`=%s",
-		$mysqli->real_escape_string($count),
-		$mysqli->real_escape_string($row['no'])
-	);
-	$result = $mysqli->query($sql);
+	$sql = "UPDATE `" . $mysql_database . "`.`" . $mysql_regist_code . "` SET `count`=? WHERE `no`=?";
+	$stmt = $mysqli->prepare($sql);
+	$stmt->bind_param("ii", $count, $row['no']);
+	$stmt->execute();
 	echo "가입 완료!";
 	echo "<meta http-equiv='refresh' content='0;url=index'>";
 } else {

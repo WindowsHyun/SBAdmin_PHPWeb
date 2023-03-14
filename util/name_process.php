@@ -20,12 +20,14 @@
 
 	$chk_name = $_POST['chkName'];
 
-	$sql = sprintf("SELECT `name` FROM `".$mysql_member_login_table."` WHERE `name` = \"%s\"",
-                    $mysqli->real_escape_string($chk_name) );
+	$sql = sprintf("SELECT COUNT(*) AS cnt FROM `%s` WHERE `name` = '%s'",
+               $mysql_member_login_table,
+               $mysqli->real_escape_string($chk_name));
+
 	$result = $mysqli->query($sql);
 	$row = mysqli_fetch_assoc($result);
 
-	if($row['name'] != '') {
+	if($row['cnt'] > 0) {
 		echo "중복 된 닉네임 입니다. false";
 	}else{
 		echo "사용하셔도 좋은 닉네임 입니다. true";

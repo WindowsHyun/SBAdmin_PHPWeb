@@ -173,6 +173,58 @@ switch ($API) {
 			);
 		}
 		break;
+
+		case USER_SELF_PASSWORD_CHANGE:
+			// 입력 값 확인
+			if (!isset($_POST['LoginID']) || !isset($_POST['Name']) || !isset($_POST['Pwd'])) {
+				print "<script language=javascript> alert('비정상 적인 접근 입니다.1'); location.replace('login'); </script>";
+				return 0;
+			}
+			// 값이 비어 있을 경우 확인
+			if ($_POST['LoginID'] == "" || $_POST['Name'] == "" || $_POST['Pwd'] == "") {
+				print "<script language=javascript> alert('비정상 적인 접근 입니다.2'); location.replace('login'); </script>";
+				return 0;
+			}
+			// Referer 체크
+			if (strpos($_SERVER['HTTP_REFERER'], "site") == false) {
+				print "<script language=javascript> alert('비정상 적인 접근 입니다.3'); location.replace('login'); </script>";
+				return 0;
+			}
+	
+			$user_id = $_POST['LoginID'];
+			$user_name = $_POST['Name'];
+			$user_pw = $_POST['Pwd'];
+			
+			// mail로 유저 아이디 검색
+			$sql = sprintf(
+				"SELECT * FROM `user_table` WHERE `mail` = \"%s\" and `name` = \"%s\" ",
+				$mysqli->real_escape_string($user_id),
+				$mysqli->real_escape_string($user_name)
+			);
+			$result = $mysqli->query($sql);
+			$row = mysqli_fetch_assoc($result);
+	
+			// token 과 해당 유저의 이메일이 다를 경우
+			if (!hash_equals($row['mail'], $user_id)) {
+				print "<script language=javascript> alert('비정상 적인 접근 입니다.'); location.replace('login'); </script>";
+				exit();
+			}
+			// 유저 No 기록
+			$user_no = $row['no'];
+	
+			// 비밀번호 변경 처리
+			$hashed_password = password_hash($user_pw, PASSWORD_DEFAULT);
+	
+			// salt와 해시된 비밀번호를 데이터베이스에 저장
+			$sql = sprintf(
+				"UPDATE `" . $mysql_database . "`.`user_table` SET `pwd`= \"%s\" WHERE `no`=%s",
+				$mysqli->real_escape_string($hashed_password),
+				$mysqli->real_escape_string($user_no)
+			);
+			$result = $mysqli->query($sql);
+	
+			print "<script language=javascript> alert('비밀번호가 정상적으로 변경 되었습니다.'); location.replace('login'); </script>";
+		break;
 }
 
 $result = $mysqli->query($sql);

@@ -20,4 +20,6 @@ define('ADMIN_ADD_MEMBER', 'ADADMR');   // 관리자 추가
 define('ADMIN_DEL_MEMBER', 'ADDEMR');   // 관리자 삭제
 define('ADMIN_EDIT_MEMBER', 'ADEDMR');  // 관리자 수정
 
+define('USER_SELF_PASSWORD_CHANGE', 'USSLPACH'); // 사용자 스스로 비밀번호 변경
+
 ?>
